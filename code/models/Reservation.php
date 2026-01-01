@@ -20,12 +20,13 @@ Class Reservation
 
 //createReservation
 
-    public function createReservation($userid):void
+    public function createReservation($userid):bool
     {
+        try{
         $sql = "INSERT INTO reservations
                 (user_id, vehicle_id, 'start_date', end_date, pickup_location)
                 VALUES (?, ?, ?, ?, ?)";
-        $stmt = DataBase::Connect()->prepare();
+        $stmt = DataBase::Connect()->prepare($sql);
 
         $stmt->execute([
             $userid,
@@ -34,12 +35,18 @@ Class Reservation
             $this->end_date,
             $this->location
         ]);
+            return true;
+
+        }catch(pdoexception $e){
+            return false;
+        }
     }
 
 //aditReservation
 
-    public function aditReservation($id)
+    public function aditReservation($id):bool
     {
+        try{
         $sql = "UPDATE reservations SET
                 vehicle_id = ?,
                 'start_date' = ?, 
@@ -56,6 +63,10 @@ Class Reservation
             $this->location,
             $id
         ]);
+            return true;
+        }catch(PDOException $e){
+            return false;
+        }
     }
 
 //abortReservation

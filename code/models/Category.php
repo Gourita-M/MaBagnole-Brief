@@ -19,8 +19,9 @@ Class Category
 
     //addCategory
 
-    public function addCategory()
+    public function addCategory():bool
     {
+        try{
         $sql = "INSERT INTO categories(cate_name)
                 VALUES ( ? )";
 
@@ -28,13 +29,18 @@ Class Category
 
         $stmt->execute([
             $this->cate_name
-        ]);
+        ]); 
+            return true;
+        }catch(PDOException $e){
+            return false;
+        }
     }
 
     //editCategory
 
-    public function editCategory($id)
+    public function editCategory($id):bool
     {
+        try{
         $sql = "UPDATE categories
                 SET cate_name = ?
                 WHERE id = ? ";
@@ -45,12 +51,18 @@ Class Category
             $this->cate_name,
             $id
         ]);
+            return true;
+
+        }catch(pdoexception $e){
+            return false;
+        }
     }
 
     //deleteCategory
 
-    public function deleteCategory($id):void
+    public function deleteCategory($id):bool
     {
+        try{
         $sql = "DELETE FROM categories
                 WHERE id = ? ";
         
@@ -59,6 +71,11 @@ Class Category
         $stmt->execute([
             $id
         ]);
+            return true;
+
+        }catch(pdoexception $e){
+            return false;
+        }
     }
 
     //getCategories
@@ -66,7 +83,7 @@ Class Category
     public function getCategories():array
     {
         $sql = "SELECT * FROM categories";
-        $stmt = DataBase::Connect()->prepare();
+        $stmt = DataBase::Connect()->prepare($sql);
 
         $stmt->execute();
 

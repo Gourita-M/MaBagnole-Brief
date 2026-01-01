@@ -21,8 +21,9 @@ class Vehicles
 
 //addVehicle
 
-    public function addVehicle():void
+    public function addVehicle():bool
     {
+        try{
         $sql = "INSERT INTO vehicles(model, price_day, vehicle_status, category_id, Vehicle_image)
                 VALUES (?, ?, ?, ?, ?)";
         $stmt = DataBase::Connect()->prepare($sql);
@@ -33,12 +34,17 @@ class Vehicles
             $this->category_id,
             $this->Vehicle_image
         ]);
+            return true;
+        } catch(PDOException $e){
+            return false;
+        }
     }
 
 //editVehicle
 
-    public function editVehicle($id):void
+    public function editVehicle($id):bool
     {
+        try{
         $sql = "UPDATE FROM vehicles SET
                 model = ?,
                 price_day = ?, 
@@ -56,18 +62,27 @@ class Vehicles
             $this->Vehicle_image,
             $id
         ]);
+            return true;
+        }catch(pdoexception $e){
+            return false;
+        }
     }
 
 //deleteVehicle
 
-    public function deleteVehicle($id):void
+    public function deleteVehicle($id):bool
     {
+        try{
         $sql = "DELETE FROM vehicles
                 WHERE vehicle_id = ? ";
         $stmt = DataBase::Connect()->prepare($sql);
         $stmt->execute([
             $id
         ]);
+            return true;
+        }catch(pdoexception $e){
+            return false;
+        }
     }
 
 //getVehicle 
