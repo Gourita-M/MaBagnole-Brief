@@ -1,4 +1,5 @@
 <?php
+    include "../config/database.php";
     include "../code/models/user.php";
 
     $users = new User();

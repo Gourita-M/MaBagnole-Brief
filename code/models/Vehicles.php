@@ -1,6 +1,5 @@
 <?php 
-    include "../config/database.php";
-
+ 
 class Vehicles
 {
     private $model;
@@ -100,14 +99,15 @@ class Vehicles
 
     public function findVehicleById($id):array
     {
-        $sql = "SELECT * vehicles
+        $sql = "SELECT * 
+                FROM vehicles
                 WHERE vehicle_id = ? ";
 
         $stmt = DataBase::Connect()->prepare($sql);
         $stmt->execute([
             $id
         ]);
-        return $stmt->fetchAll();
+        return $stmt->fetch();
     }
 
 //vehicleStatus

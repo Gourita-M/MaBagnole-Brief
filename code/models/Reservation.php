@@ -1,5 +1,4 @@
 <?php
-    include "../config/database.php";
 
 Class Reservation
 {
@@ -24,7 +23,7 @@ Class Reservation
     {
         try{
         $sql = "INSERT INTO reservations
-                (user_id, vehicle_id, 'start_date', end_date, pickup_location)
+                (user_id, vehicle_id, start_date, end_date, pickup_location)
                 VALUES (?, ?, ?, ?, ?)";
         $stmt = DataBase::Connect()->prepare($sql);
 

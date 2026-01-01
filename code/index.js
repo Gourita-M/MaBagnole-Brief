@@ -1,30 +1,31 @@
-const authModal = document.getElementById('auth-modal');
-  const openLoginBtn = document.getElementById('open-login-modal');
-  const closeAuthBtn = document.getElementById('close-auth-modal');
-  const loginForm = document.getElementById('login-form');
-  const registerForm = document.getElementById('register-form');
-  const showRegisterBtn = document.getElementById('show-register');
-  const showLoginBtn = document.getElementById('show-login');
+    const authModal = document.getElementById('auth-modal');
+    const openLoginBtn = document.getElementById('open-login-modal');
+    const closeAuthBtn = document.getElementById('close-auth-modal');
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const showRegisterBtn = document.getElementById('show-register');
+    const showLoginBtn = document.getElementById('show-login');
 
-  openLoginBtn.addEventListener('click', e => {
+openLoginBtn.addEventListener('click', e => {
     loginForm.classList.remove('hidden');
     registerForm.classList.add('hidden');
     authModal.classList.remove('hidden');
   });
 
-  closeAuthBtn.addEventListener('click', () => {
+closeAuthBtn.addEventListener('click', () => {
     authModal.classList.add('hidden');
   });
 
-  showRegisterBtn.addEventListener('click', () => {
+showRegisterBtn.addEventListener('click', () => {
     loginForm.classList.add('hidden');
     registerForm.classList.remove('hidden');
   });
 
-  showLoginBtn.addEventListener('click', () => {
+showLoginBtn.addEventListener('click', () => {
     registerForm.classList.add('hidden');
     loginForm.classList.remove('hidden');
   });
+
 
 const listvehicles = document.getElementById('listvehicles');
 const search = document.getElementById('search');
@@ -78,15 +79,7 @@ function showVehicles(car) {
           ${car.model}
         </h4>
 
-        <p class="text-sm text-gray-400">
-          Status : ${car.vehicle_status}
-        </p>
-
-        <p class="mt-3 text-yellow-400 font-bold text-lg">
-          ${car.price_day} / day
-        </p>
-
-        <a href="#"
+        <a href="./View/Vehicle_details.php?id=${car.vehicle_id}"
            class="mt-4 inline-block bg-yellow-500 text-black px-4 py-2 rounded-lg font-semibold
                   hover:bg-yellow-400 transition">
           View Details

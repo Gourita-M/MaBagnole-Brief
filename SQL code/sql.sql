@@ -115,3 +115,16 @@ INSERT INTO reviews (user_id, vehicle_id, rating, reviews_comment, deleted_at) V
 (1, 7, '2', 'Too expensive for the value', '2025-01-01 12:00:00');
 
 
+SELECT 
+v.model, 
+v.price_day, 
+v.vehicle_status,
+v.Vehicle_image,
+r.reviews_comment,
+u.user_name
+FROM vehicles v
+LEFT JOIN reviews r 
+ON v.vehicle_id = r.vehicle_id
+LEFT JOIN users u
+ON r.user_id = u.user_id
+WHERE v.vehicle_id = ? ;

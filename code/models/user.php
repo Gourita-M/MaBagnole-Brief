@@ -1,5 +1,4 @@
 <?php 
-include "../code/config/database.php";
 
 Class User
 {
@@ -77,6 +76,15 @@ Class User
             $stmt2->execute([$this->username, $this->email, md5($this->password) ]);
             return true;
         
+    }
+
+    public function logOut():bool
+    {
+         
+        session_unset();
+        session_destroy();
+        return true;
+    
     }
 }
 ?>

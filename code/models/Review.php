@@ -1,5 +1,4 @@
 <?php
-    include "../config/database.php";
 
 Class Review
 {
@@ -51,5 +50,34 @@ Class Review
 
 //getByVehicleid
 
+    public function getByVehicleid($id)
+    {
+        try{
+            $sql = "SELECT 
+                    v.model, 
+                    v.price_day, 
+                    v.vehicle_status,
+                    v.Vehicle_image,
+                    r.reviews_comment,
+                    u.user_name
+                    FROM vehicles v
+                    LEFT JOIN reviews r 
+                    ON v.vehicle_id = r.vehicle_id
+                    LEFT JOIN users u
+                    ON r.user_id = u.user_id
+                    WHERE v.vehicle_id = ? ";
+
+            $stmt = DataBase::Connect()->prepare($sql);
+
+            $stmt->execute([
+                $id
+            ]);
+
+            return $stmt->fetchAll();
+
+        }catch(pdoexception $e){
+            return $e;
+        }
+    }
 }
 ?>
