@@ -1,7 +1,6 @@
 <?php
   include_once "../controlls/rented_logic.php";
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +17,7 @@
   <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
     <h1 class="text-2xl font-bold text-yellow-400">MaBagnole</h1>
 
-    <nav class="space-x-6 hidden md:block">
+    <nav class="space-x-6 hidden md:flex">
       <a href="index.php" class="hover:text-yellow-400 transition">Home</a>
       <a href="Vehicles.php" class="hover:text-yellow-400 transition">Vehicles</a>
       <a href="customer.php" class="text-yellow-400 font-semibold">My Rentals</a>
@@ -27,111 +26,164 @@
   </div>
 </header>
 
+
+<!-- DELETE REVIEW MODAL -->
+<div id="deleteReviewModal"
+     class="fixed inset-0 hidden z-50
+            bg-black/60
+            flex items-center justify-center">
+
+  <div class="bg-gray-800 w-full max-w-sm rounded-xl shadow-xl p-6 text-center">
+    <h2 class="text-2xl font-bold text-red-400 mb-3">
+      Delete Review
+    </h2>
+
+    <p class="text-gray-300 mb-6">
+      Are you sure you want to delete this review?
+    </p>
+
+    <div class="flex justify-center gap-4">
+      <button
+        onclick="closeDeleteModal()"
+        class="px-4 py-2 rounded bg-gray-600 hover:bg-gray-500">
+        Cancel
+      </button>
+
+      <button
+        class="px-4 py-2 rounded bg-red-500 text-white font-semibold hover:bg-red-400">
+        Delete
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT REVIEW MODAL -->
+<div id="editReviewModal"
+     class="fixed inset-0 hidden z-50
+            bg-black/60
+            flex items-center justify-center">
+
+  <div class="bg-gray-800 w-full max-w-md rounded-xl shadow-xl p-6">
+    <h2 class="text-2xl font-bold text-yellow-400 mb-4 text-center">
+      Edit Your Review
+    </h2>
+
+    <form class="space-y-4">
+      <!-- Rating -->
+      <select
+        class="w-full bg-gray-700 text-yellow-400 px-3 py-2 rounded border border-gray-600">
+        <option value="1">1 ⭐</option>
+        <option value="2">2 ⭐⭐</option>
+        <option value="3">3 ⭐⭐⭐</option>
+        <option value="4">4 ⭐⭐⭐⭐</option>
+        <option value="5">5 ⭐⭐⭐⭐⭐</option>
+      </select>
+
+      <!-- Comment -->
+      <textarea
+        rows="4"
+        class="w-full bg-gray-700 text-gray-100 px-3 py-2 rounded border border-gray-600 focus:ring-1 focus:ring-yellow-500 outline-none"
+        placeholder="Update your review..."></textarea>
+
+      <!-- Buttons -->
+      <div class="flex justify-end gap-3">
+        <button type="button"
+          onclick="closeEditModal()"
+          class="px-4 py-2 rounded bg-gray-600 hover:bg-gray-500">
+          Cancel
+        </button>
+
+        <button
+          class="px-4 py-2 rounded bg-yellow-500 text-black font-semibold hover:bg-yellow-400">
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
 <!-- MAIN -->
 <main class="flex-grow max-w-7xl mx-auto px-6 py-10">
 
-  <h2 class="text-4xl font-bold mb-8 text-yellow-400">
-    My Rented Cars & Reviews
-  </h2>
+  <h2 class="text-4xl font-bold mb-8 text-yellow-400">My Rented Vehicles & Reviews</h2>
 
-  <!-- GRID -->
-  <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 ">
 
-    <!-- CARD -->
-    <article class="bg-gray-800 rounded-lg shadow p-4 flex gap-4">
-      <img
-        src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=300&q=80"
-        class="w-28 h-20 rounded-md object-cover"
-        alt="Dacia Logan"
-      />
+    <?php 
+      foreach($data as $da){
+      if($da['reservation_id'] != null){
+        echo "
+          <article class='bg-gray-800 rounded-lg shadow p-5 flex flex-col'>
+            <img
+              src='{$da['Vehicle_image']}'
+              class='w-full h-40 rounded-md object-cover mb-4'
+            />
 
-      <div class="flex-1">
-        <h3 class="text-lg font-semibold text-yellow-400">
-          Dacia Logan
-        </h3>
+            <h3 class='text-xl font-semibold text-yellow-400 mb-1'>{$da['model']}</h3>
+            <p class='text-sm text-gray-300 mb-1'>Category: {$da['cate_name']}</p>
+            <p class='text-sm text-gray-300 mb-2'>Rented: {$da['start_date']} → {$da['end_date']}</p>
 
-        <p class="text-sm text-gray-300">
-          Economy • 200 DH / day
-        </p>
+        ";
 
-        <p class="text-xs text-gray-400 mb-2">
-          10 Jan 2025 → 15 Jan 2025
-        </p>
+          if($da['reviews_comment'] != null){
+            echo "
+              <div class='bg-gray-900 rounded p-3 mb-2'>
+                <h4 class='text-yellow-400 font-semibold mb-1'>Your Review</h4>
+                <div class='flex items-center mb-2'>
+                  <span class='text-yellow-400 mr-2'>⭐⭐⭐⭐⭐</span>
+                  <button class='text-blue-400 hover:underline mr-3'>Edit</button>
+                  <button class='text-red-500 hover:underline'>Delete</button>
+                </div>
+                <p class='text-gray-300'>{$da['reviews_comment']}.</p>
+              </div>
+            ";
+          }else{
+            echo "
+              <form class='flex flex-col gap-3'>
+                <label class='text-yellow-400 font-semibold'>Add Your Review</label>
 
-        <!-- REVIEW FORM -->
-        <form class="flex flex-col items-center gap-2">
-          <select
-            class="w-full bg-gray-700 text-yellow-400 text-sm px-2 py-1 rounded border border-gray-600">
-            <option disabled selected>Rate</option>
-            <option value="1">1 ⭐</option>
-            <option value="2">2 ⭐⭐</option>
-            <option value="3">3 ⭐⭐⭐</option>
-            <option value="4">4 ⭐⭐⭐⭐</option>
-            <option value="5">5 ⭐⭐⭐⭐⭐</option>
-          </select>
+                <select
+                  class='bg-gray-700 text-yellow-400 rounded px-3 py-2 border border-gray-600 focus:ring-2 focus:ring-yellow-500 outline-none'
+                  required
+                  name='rating'
+                  aria-label='Rating'
+                >
+                  <option value='' disabled selected>Rate</option>
+                  <option value='1'>1 ⭐</option>
+                  <option value='2'>2 ⭐⭐</option>
+                  <option value='3'>3 ⭐⭐⭐</option>
+                  <option value='4'>4 ⭐⭐⭐⭐</option>
+                  <option value='5'>5 ⭐⭐⭐⭐⭐</option>
+                </select>
 
-          <input
-            type="text"
-            placeholder="Your review..."
-            class="w-full flex-1 bg-gray-700 text-sm px-2 py-1 rounded border border-gray-600 focus:ring-1 focus:ring-yellow-500 outline-none"
-          />
+                <textarea
+                  name='review'
+                  rows='3'
+                  placeholder='Write your review...'
+                  class='bg-gray-700 text-yellow-400 rounded px-3 py-2 border border-gray-600 resize-none focus:ring-2 focus:ring-yellow-500 outline-none'
+                  required
+                ></textarea>
 
-          <button
-            class="bg-yellow-500 text-black text-sm px-3 py-1 rounded hover:bg-yellow-400 transition">
-            Send
-          </button>
-        </form>
-      </div>
-    </article>
-
-    <!-- CARD -->
-    <article class="bg-gray-800 rounded-lg shadow p-4 flex gap-4">
-      <img
-        src="https://images.unsplash.com/photo-1549924231-f129b911e442?auto=format&fit=crop&w=300&q=80"
-        class="w-28 h-20 rounded-md object-cover"
-        alt="Range Rover"
-      />
-
-      <div class="flex-1">
-        <h3 class="text-lg font-semibold text-yellow-400">
-          Range Rover
-        </h3>
-
-        <p class="text-sm text-gray-300">
-          SUV • 600 DH / day
-        </p>
-
-        <p class="text-xs text-gray-400 mb-2">
-          05 Feb 2025 → 10 Feb 2025
-        </p>
-
-        <form class="flex flex-col items-center gap-2">
-          <select
-            class="w-full bg-gray-700 text-yellow-400 text-sm px-2 py-1 rounded border border-gray-600">
-            <option disabled selected>Rate</option>
-            <option value="1">1 ⭐</option>
-            <option value="2">2 ⭐⭐</option>
-            <option value="3">3 ⭐⭐⭐</option>
-            <option value="4">4 ⭐⭐⭐⭐</option>
-            <option value="5">5 ⭐⭐⭐⭐⭐</option>
-          </select>
-
-          <input
-            type="text"
-            placeholder="Your review..."
-            class="w-full flex-1 bg-gray-700 text-sm px-2 py-1 rounded border border-gray-600 focus:ring-1 focus:ring-yellow-500 outline-none"
-          />
-
-          <button
-            class="bg-yellow-500 text-black text-sm px-3 py-1 rounded hover:bg-yellow-400 transition">
-            Send
-          </button>
-        </form>
-      </div>
-    </article>
-
+                <button
+                  type='submit'
+                  class='bg-yellow-500 text-black font-semibold px-4 py-2 rounded hover:bg-yellow-400 transition'
+                >
+                  Submit Review
+                </button>
+              </form>
+            ";
+          }
+        echo "
+          </article>
+        ";
+      }else{
+      echo "<h1'>You don't Have Any Rented Cars</h1>";
+    }
+    }
+    ?>
+    
   </section>
-
 </main>
 
 <!-- FOOTER -->

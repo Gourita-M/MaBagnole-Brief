@@ -83,6 +83,40 @@ Class Reservation
         return $stmt->fetchAll();
     }
 
-//findReservationById
+//getReservation&Review
+
+    public function getReservationReview($userid)
+    {
+        $sql = "SELECT * FROM users u
+                LEFT JOIN reviews r ON r.user_id = u.user_id
+                LEFT JOIN reservations rv ON rv.reservation_id = r.reviews_id
+                LEFT JOIN vehicles v ON v.vehicle_id = rv.vehicle_id
+                LEFT JOIN categories c on c.id = v.category_id
+                WHERE u.user_id = ? ";
+
+        $stmt = DataBase::Connect()->prepare($sql);
+
+        $stmt->execute([
+            $userid
+        ]);
+
+        return $stmt->fetchAll();
+    }
+
+//findReservationByUserId
+//getReservationByReservation
+    public function getReservationByVehicle()
+    {
+        $sql = "SELECT * 
+                FROM reservations r 
+                LEFT JOIN vehicles v 
+                ON v.vehicle_id = r.vehicle_id;";
+
+        $stmt = DataBase::Connect()->prepare($sql);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
 }
 ?>
