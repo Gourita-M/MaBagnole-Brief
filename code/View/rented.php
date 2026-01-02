@@ -1,4 +1,5 @@
 <?php
+  session_start();
   include_once "../controlls/rented_logic.php";
 ?>
 <!DOCTYPE html>
@@ -12,20 +13,7 @@
 
 <body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col">
 
-<!-- HEADER -->
-<header class="bg-gray-800 shadow-lg">
-  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-    <h1 class="text-2xl font-bold text-yellow-400">MaBagnole</h1>
-
-    <nav class="space-x-6 hidden md:flex">
-      <a href="index.php" class="hover:text-yellow-400 transition">Home</a>
-      <a href="Vehicles.php" class="hover:text-yellow-400 transition">Vehicles</a>
-      <a href="customer.php" class="text-yellow-400 font-semibold">My Rentals</a>
-      <a href="logout.php" class="hover:text-red-400 transition">Logout</a>
-    </nav>
-  </div>
-</header>
-
+<?php include_once "./header.php"; ?>
 
 <!-- DELETE REVIEW MODAL -->
 <div id="deleteReviewModal"
@@ -140,14 +128,13 @@
             ";
           }else{
             echo "
-              <form class='flex flex-col gap-3'>
+              <form method='POST' class='flex flex-col gap-3'>
                 <label class='text-yellow-400 font-semibold'>Add Your Review</label>
-
+                <input type='hidden' name='vehiid' value='{$da['vehicle_id']}'>
                 <select
                   class='bg-gray-700 text-yellow-400 rounded px-3 py-2 border border-gray-600 focus:ring-2 focus:ring-yellow-500 outline-none'
                   required
                   name='rating'
-                  aria-label='Rating'
                 >
                   <option value='' disabled selected>Rate</option>
                   <option value='1'>1 ⭐</option>
@@ -156,7 +143,7 @@
                   <option value='4'>4 ⭐⭐⭐⭐</option>
                   <option value='5'>5 ⭐⭐⭐⭐⭐</option>
                 </select>
-
+                <p>dddd{$da['vehicle_id']}</p>
                 <textarea
                   name='review'
                   rows='3'
@@ -166,6 +153,7 @@
                 ></textarea>
 
                 <button
+                  name='subreview'
                   type='submit'
                   class='bg-yellow-500 text-black font-semibold px-4 py-2 rounded hover:bg-yellow-400 transition'
                 >

@@ -1,5 +1,5 @@
 <?php
-    include "../config/database.php";
+    include "./config/database.php";
     include "../code/models/user.php";
 
     $users = new User();
@@ -14,10 +14,12 @@
         $result = $users->login();
 
         if($result === true){
+            $_SESSION['userid'] = $users->getUserId();
             $_SESSION['username'] = $users->getName();
+            $_SESSION['role'] = $users->getRole();
         }
         else{
-            echo "<script>alert('Wrong')</script>";
+            echo "Wrong Email or Password";
         }
     }
 

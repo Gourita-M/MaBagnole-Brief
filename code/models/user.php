@@ -2,9 +2,11 @@
 
 Class User
 {
+    private $userid;
     private $username;
     private $email;
     private $password;
+    private $role;
 
     public function setName($name)
     {
@@ -35,6 +37,26 @@ Class User
     {
         return $this->password;
     }
+
+    public function setRole($role)
+    {
+        $this->role = $role;
+    }
+
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    public function setUserId($userid)
+    {
+        $this->userid = $userid;
+    }
+
+    public function getUserId()
+    {
+        return $this->userid;
+    }
     
     public function login()
     {
@@ -47,7 +69,9 @@ Class User
 
         if($mail['email'] === $this->email){
             if($mail['user_password'] == md5($this->password)){
+                $this->setUserId($mail['user_id']);
                 $this->setName($mail['user_name']);
+                $this->setRole($mail['role']);
                 return true;
             }else{
                 return false;

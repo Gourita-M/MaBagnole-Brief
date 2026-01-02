@@ -110,6 +110,25 @@ class Vehicles
         return $stmt->fetch();
     }
 
+//getVehicleCategory
+
+    public function getVehicleCategory()
+    {
+        try{
+            $sql = "SELECT * FROM vehicles v
+                    LEFT JOIN categories c 
+                    ON c.id = v.category_id;";
+
+            $stmt = DataBase::Connect()->prepare($sql);
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+
+        }catch(pdoexception $e){
+            return $e;
+        }
+    }
 //vehicleStatus
 
 

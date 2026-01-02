@@ -87,12 +87,15 @@ Class Reservation
 
     public function getReservationReview($userid)
     {
-        $sql = "SELECT * FROM users u
-                LEFT JOIN reviews r ON r.user_id = u.user_id
-                LEFT JOIN reservations rv ON rv.reservation_id = r.reviews_id
-                LEFT JOIN vehicles v ON v.vehicle_id = rv.vehicle_id
-                LEFT JOIN categories c on c.id = v.category_id
-                WHERE u.user_id = ? ";
+        $sql = "SELECT *
+                FROM reservations r
+                JOIN vehicles v ON v.vehicle_id = r.vehicle_id
+                JOIN categories c ON c.id = v.category_id
+                JOIN users u ON u.user_id = r.user_id
+                LEFT JOIN reviews rr ON rr.vehicle_id = v.vehicle_id 
+                AND rr.user_id = u.user_id
+                WHERE u.user_id = ?;
+                ";
 
         $stmt = DataBase::Connect()->prepare($sql);
 

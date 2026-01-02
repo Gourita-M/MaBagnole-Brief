@@ -1,4 +1,5 @@
 <?php 
+  session_start();
   include_once "../controlls/Reservation_logic.php";
 ?>
 
@@ -13,17 +14,7 @@
 
 <body class="bg-gray-900 text-gray-100 min-h-screen">
 
-<!-- HEADER -->
-<header class="bg-gray-800 shadow">
-  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-    <h1 class="text-2xl font-bold text-yellow-400">MaBagnole</h1>
-    <nav class="space-x-6 hidden md:block">
-      <a href="#" class="hover:text-yellow-400">Home</a>
-      <a href="#" class="hover:text-yellow-400">Vehicles</a>
-      <a href="#" class="hover:text-yellow-400">My Rentals</a>
-    </nav>
-  </div>
-</header>
+<?php include_once "./header.php"; ?>
 
 <main class="max-w-6xl mx-auto px-6 py-10">
 

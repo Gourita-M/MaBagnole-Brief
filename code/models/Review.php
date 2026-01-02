@@ -2,12 +2,11 @@
 
 Class Review
 {
-    private $reviews_id;
     private $user_id;
     private $vehicle_id;
     private $rating;
     private $reviews_comment;
-    private $deleted_at;
+    private $deleted_at = NULL;
     
     public function __set($name, $value)
     {
@@ -22,7 +21,7 @@ Class Review
 //softDelete
 //addReview
 
-    public function addReview():bool
+    public function addReview()
     {
         try{
         $sql = "INSERT INTO reviews(user_id, vehicle_id, rating, reviews_comment, deleted_at)
@@ -40,7 +39,7 @@ Class Review
             return true;
         } catch(PDOException $e){
             
-            return false;
+            return $e;
         }
     }
 
@@ -72,6 +71,35 @@ Class Review
             $stmt->execute([
                 $id
             ]);
+
+            return $stmt->fetchAll();
+
+        }catch(pdoexception $e){
+            return $e;
+        }
+    }
+
+//getReviewsWithVehicles
+
+    public function getReviewsWithVehicles()
+    {
+        try{
+            $sql = "SELECT 
+                    v.model, 
+                    v.price_day, 
+                    v.vehicle_status,
+                    v.Vehicle_image,
+                    r.reviews_comment,
+                    u.user_name
+                    FROM vehicles v
+                    LEFT JOIN reviews r 
+                    ON v.vehicle_id = r.vehicle_id
+                    LEFT JOIN users u
+                    ON r.user_id = u.user_id ";
+
+            $stmt = DataBase::Connect()->prepare($sql);
+
+            $stmt->execute();
 
             return $stmt->fetchAll();
 

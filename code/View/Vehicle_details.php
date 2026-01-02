@@ -1,4 +1,5 @@
 <?php 
+    session_start();
     include_once "../controlls/vehicles_logic.php";
 ?>
 
@@ -13,17 +14,7 @@
 
 <body class="bg-gray-900 text-gray-100 min-h-screen">
 
-<!-- HEADER -->
-<header class="bg-gray-800 shadow-lg">
-  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-    <h1 class="text-2xl font-bold text-yellow-400">MaBagnole</h1>
-    <nav class="space-x-6 hidden md:block">
-      <a href="index.php" class="hover:text-yellow-400 transition">Home</a>
-      <a href="Vehicles.php" class="hover:text-yellow-400 transition">Vehicles</a>
-      <a href="customer.php" class="hover:text-yellow-400 transition">My Rentals</a>
-    </nav>
-  </div>
-</header>
+<?php include_once "./header.php"; ?>
 
 <!-- MAIN -->
 <main class="max-w-7xl mx-auto px-6 py-10">
@@ -77,12 +68,23 @@
       </div>
 
       <div>
-        
-        <a href="./rent.php?id=<?= $_GET['id'] ?>"
-            class="block w-full text-center bg-yellow-500 text-black py-3 rounded-xl font-semibold hover:bg-yellow-400 transition">
+        <?php 
+        if(isset($_SESSION['role'])){
+          echo "
+          <a href='./rent.php?id={$_GET['id']}'
+            class='block w-full text-center bg-yellow-500 text-black py-3 rounded-xl font-semibold hover:bg-yellow-400 transition'>
             Rent This Car
         </a>
-
+          ";
+        }else{
+          echo "
+        <button
+        class='open-login-modal block w-full text-center bg-yellow-500 text-black py-3 rounded-xl font-semibold hover:bg-yellow-400 transition'>
+            Rent This Car
+        </button> 
+         ";
+        }
+        ?>
       </div>
 
     </div>
@@ -120,5 +122,35 @@
   © 2025 MaBagnole. All rights reserved.
 </footer>
 
+<script>
+      const authModal = document.getElementById('auth-modal');
+    const openLoginBtn = document.querySelector('.open-login-modal');
+    const closeAuthBtn = document.getElementById('close-auth-modal');
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const showRegisterBtn = document.getElementById('show-register');
+    const showLoginBtn = document.getElementById('show-login');
+
+openLoginBtn.addEventListener('click', e => {
+    loginForm.classList.remove('hidden');
+    registerForm.classList.add('hidden');
+    authModal.classList.remove('hidden');
+  });
+
+closeAuthBtn.addEventListener('click', () => {
+    authModal.classList.add('hidden');
+  });
+
+showRegisterBtn.addEventListener('click', () => {
+    loginForm.classList.add('hidden');
+    registerForm.classList.remove('hidden');
+  });
+
+showLoginBtn.addEventListener('click', () => {
+    registerForm.classList.add('hidden');
+    loginForm.classList.remove('hidden');
+  });
+
+</script>
 </body>
 </html>

@@ -2,11 +2,6 @@
   session_start();
   include "./controlls/login_register.php"; 
 
-  echo $_SESSION['username'];
-
-  // session_unset();
-  // session_destroy();
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,16 +18,45 @@
     <h1 class="text-2xl font-bold text-yellow-400">MaBagnole</h1>
 
     <nav class="space-x-6 hidden md:block">
-      <a href="./index.php" class="hover:text-yellow-400 transition">Home</a>
-      <a href="./View/Vehicles.php" class="hover:text-yellow-400 transition">Vehicles</a>
-      <a href="./View/admin.php" class="hover:text-yellow-400 transition">Dashboard</a>
-      <a href="../code/View/rented.php" class="hover:text-yellow-400 transition">Contact</a>
+      <a href="./index.php" class="hover:text-yellow-400 text-white transition">Home</a>
+      <?php 
+      if(isset($_SESSION['role'])){
+      if($_SESSION['role'] === 'admin'){
+        echo '<a href="./View/admin.php" class="hover:text-yellow-400 text-white transition">Dashboard</a>';
+      }else{
+        echo '<a href="./View/rented.php" class="hover:text-yellow-400 text-white transition">Rented</a>
+              <a href="./View/Vehicles.php" class="hover:text-yellow-400 text-white transition">Vehicles</a>';
+      }
+    }else echo '<a href="./View/contact.php" class="hover:text-yellow-400 text-white transition">Contact</a>';
+    ?>
     </nav>
 
-    <button id="open-login-modal"
-      class="bg-yellow-500 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-400 transition">
-      Login/Register
-    </button>
+    <?php 
+      if (isset($_SESSION['username'])){
+        echo "
+        <div class='flex items-center gap-4'>
+          <span class='text-yellow-400 font-semibold'>
+            👋 {$_SESSION['username']}
+          </span>
+
+          <a href='./controlls/logout.php'
+            class='bg-red-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-400 transition'>
+            Logout
+          </a>
+        </div> ";
+      }else{
+        echo "
+        <button
+          class='open-login-modal bg-yellow-500 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-400 transition'>
+          Login / Register
+        </button>
+        ";
+      }
+    ?>
+    <button
+        class='open-login-modal hidden bg-yellow-500 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-400 transition'>
+        Login / Register
+      </button>
   </div>
 </header>
 

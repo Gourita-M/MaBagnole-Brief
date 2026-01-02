@@ -1,5 +1,5 @@
     const authModal = document.getElementById('auth-modal');
-    const openLoginBtn = document.getElementById('open-login-modal');
+    const openLoginBtn = document.querySelector('.open-login-modal');
     const closeAuthBtn = document.getElementById('close-auth-modal');
     const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');

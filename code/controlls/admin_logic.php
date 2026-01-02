@@ -14,4 +14,7 @@ $vehicledata = $Vehicles->getVehicle();
 $categorydata = $category->getCategories();
 $reserdata = $reservation->getReservationByVehicle();
 
+$revidate = $review->getReviewsWithVehicles();
+
+
 ?>

@@ -1,4 +1,5 @@
 <?php
+  session_start();
   include_once "../controlls/admin_logic.php";
 ?>
 
@@ -10,12 +11,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
+<body>
 
-<body class="bg-gray-900 text-gray-100 min-h-screen flex">
+<?php include_once "./header.php"; ?>
+
+<div class="bg-gray-900 text-gray-100 min-h-screen flex">
 
 <!-- SIDEBAR -->
 <aside class="w-64 bg-gray-800 p-6 hidden md:block">
-  <h1 class="text-2xl font-bold text-yellow-400 mb-8">MaBagnole Admin</h1>
 
   <nav class="space-y-3">
     <button onclick="showSection('stats')" class="nav-btn">📊 Dashboard</button>
@@ -149,15 +152,24 @@
 <section id="reviews" class="admin-section hidden">
   <h2 class="title">Review Moderation</h2>
 
-  <div class="card">
-    <div>
-      <p class="font-semibold">Dacia Logan ⭐⭐⭐⭐</p>
-      <p class="text-sm text-gray-400">
-        "Very clean and economical"
-      </p>
-    </div>
-    <button class="btn-delete" onclick="openDelete()">Soft Delete</button>
-  </div>
+  <?php
+    foreach($revidate as $revi){
+      if($revi['reviews_comment'] != null){
+      echo "
+        <div class='card'>
+          <div>
+            <p class='font-semibold'>{$revi['model']}</p>
+            <p class='text-sm text-gray-400'>
+              '{$revi['reviews_comment']}'
+            </p>
+          </div>
+          <button class='btn-delete' onclick='openDelete()'>Delete</button>
+        </div>
+        ";
+      }
+    }
+  ?>
+  
 </section>
 
 <!-- ================= CUSTOMERS ================= -->
@@ -203,7 +215,7 @@
     </div>
   </div>
 </div>
-
+</div>
 <!-- JS -->
 <script>
 function showSection(id) {
