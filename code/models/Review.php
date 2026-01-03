@@ -2,6 +2,7 @@
 
 Class Review
 {
+    private $review_id;
     private $user_id;
     private $vehicle_id;
     private $rating;
@@ -19,9 +20,31 @@ Class Review
     }
 
 //softDelete
+
+    public function softDelete():bool
+    {
+        try{
+        $sql = "UPDATE reviews r
+                SET r.deleted_at = NOW()
+                WHERE r.reviews_id = ? ;
+                ";
+
+        $stmt = DataBase::Connect()->prepare($sql);
+
+        $stmt->execute([
+            $this->review_id
+        ]);
+
+            return true;
+
+        }catch(pdoexception $e){
+            return false;
+        }
+    }
+
 //addReview
 
-    public function addReview()
+    public function addReview():bool
     {
         try{
         $sql = "INSERT INTO reviews(user_id, vehicle_id, rating, reviews_comment, deleted_at)
@@ -39,6 +62,28 @@ Class Review
             return true;
         } catch(PDOException $e){
             
+            return false;
+        }
+    }
+
+//getReviewsById
+
+    public function getReviewsById()
+    {
+        try{
+            
+            $sql = "SELECT * FROM reviews r
+                    WHERE r.reviews_id = ? ";
+            $stmt = DataBase::Connect()->prepare($sql);
+
+            $stmt->execute([
+                $this->review_id
+            ]);
+
+            return $stmt->fetch();
+
+        }catch(pdoexception $e){
+
             return $e;
         }
     }

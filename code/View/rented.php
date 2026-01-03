@@ -114,20 +114,21 @@
 
         ";
 
-          if($da['reviews_comment'] != null){
+          if($da['reviews_comment'] != null ){
+            if($da['deleted_at'] === null){
             echo "
               <div class='bg-gray-900 rounded p-3 mb-2'>
                 <h4 class='text-yellow-400 font-semibold mb-1'>Your Review</h4>
                 <div class='flex items-center mb-2'>
                   <span class='text-yellow-400 mr-2'>⭐⭐⭐⭐⭐</span>
-                  <button class='text-blue-400 hover:underline mr-3'>Edit</button>
-                  <button class='text-red-500 hover:underline'>Delete</button>
+                  <a class='text-blue-400 hover:underline mr-3'>Edit</a>
+                  <a href='./delete_review.php?id={$da['reviews_id']}' class='text-red-500 hover:underline'>Delete</a>
                 </div>
                 <p class='text-gray-300'>{$da['reviews_comment']}.</p>
               </div>
             ";
-          }else{
-            echo "
+            }else{
+              echo "
               <form method='POST' class='flex flex-col gap-3'>
                 <label class='text-yellow-400 font-semibold'>Add Your Review</label>
                 <input type='hidden' name='vehiid' value='{$da['vehicle_id']}'>
@@ -143,7 +144,7 @@
                   <option value='4'>4 ⭐⭐⭐⭐</option>
                   <option value='5'>5 ⭐⭐⭐⭐⭐</option>
                 </select>
-                <p>dddd{$da['vehicle_id']}</p>
+
                 <textarea
                   name='review'
                   rows='3'
@@ -161,7 +162,42 @@
                 </button>
               </form>
             ";
-          }
+            }
+          }else{
+              echo "
+              <form method='POST' class='flex flex-col gap-3'>
+                <label class='text-yellow-400 font-semibold'>Add Your Review</label>
+                <input type='hidden' name='vehiid' value='{$da['vehicle_id']}'>
+                <select
+                  class='bg-gray-700 text-yellow-400 rounded px-3 py-2 border border-gray-600 focus:ring-2 focus:ring-yellow-500 outline-none'
+                  required
+                  name='rating'
+                >
+                  <option value='' disabled selected>Rate</option>
+                  <option value='1'>1 ⭐</option>
+                  <option value='2'>2 ⭐⭐</option>
+                  <option value='3'>3 ⭐⭐⭐</option>
+                  <option value='4'>4 ⭐⭐⭐⭐</option>
+                  <option value='5'>5 ⭐⭐⭐⭐⭐</option>
+                </select>
+
+                <textarea
+                  name='review'
+                  rows='3'
+                  placeholder='Write your review...'
+                  class='bg-gray-700 text-yellow-400 rounded px-3 py-2 border border-gray-600 resize-none focus:ring-2 focus:ring-yellow-500 outline-none'
+                  required
+                ></textarea>
+
+                <button
+                  name='subreview'
+                  type='submit'
+                  class='bg-yellow-500 text-black font-semibold px-4 py-2 rounded hover:bg-yellow-400 transition'
+                >
+                  Submit Review
+                </button>
+              </form>
+            ";}
         echo "
           </article>
         ";
